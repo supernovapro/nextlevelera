@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Outlined"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    app:cardCornerRadius="22dp"
+    app:cardElevation="5dp"
+    >
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/art_news_climate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:ellipsize="end"
+            android:textColor="#03A9F4"
+            android:maxEms="10"
+            android:maxLines="1"
+            android:text="@string/title_climate_news"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/art_news_long_climate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="3dp"
+            android:text="@string/long_text"
+            android:textColor="#A5A2A2"
+            android:textSize="15sp" />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_alignParentBottom="true"
+      android:gravity="center"
+      android:layout_below="@id/art_news_long_climate"
+      android:orientation="horizontal">
+
+      <ImageView
+          android:id="@+id/art_news_bookmark_climate"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginEnd="15dp"
+          android:contentDescription="@string/more_icon"
+          android:src="@drawable/ic_bookmark_border" />
+      <ImageView
+          android:id="@+id/art_news_share_climate"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginEnd="15dp"
+          android:contentDescription="@string/more_icon"
+          android:src="@drawable/ic_bookmark_border" />
+
+      <ImageView
+          android:id="@+id/art_news_twitter_climate"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginEnd="15dp"
+          android:contentDescription="@string/more_icon"
+          android:src="@drawable/ic_share" />
+  </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="60dp"
+        android:contentDescription="@string/more_icon"
+        android:layout_gravity="bottom"
+        android:background="#6BCDFA"/>
+</androidx.cardview.widget.CardView>

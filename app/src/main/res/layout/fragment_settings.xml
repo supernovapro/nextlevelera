@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background"
+    android:scrollbars="vertical"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_bar_background"
+            android:visibility="visible">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:logo="@drawable/ic_settings"
+                app:logoDescription="@string/settings_title"
+                app:subtitle="@string/settings_title"
+                app:subtitleTextColor="@color/Whit_color"
+                app:titleMarginStart="30dp">
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/general_features"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/gray_color"
+                android:textSize="16sp" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/settings_night_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginBottom="15dp"
+                android:drawableStart="@drawable/ic_day_mode"
+                android:drawablePadding="15dp"
+                android:text="@string/night_mode"
+                android:textSize="12sp" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/settings_enable_javascript"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginBottom="15dp"
+                android:drawableStart="@drawable/ic_javascript"
+                android:drawablePadding="15dp"
+                android:text="@string/enable_javascript" />
+
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/settings_enable_zoom_in"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginBottom="15dp"
+                android:drawableStart="@drawable/ic_zoom_in"
+                android:drawablePadding="15dp"
+                android:text="@string/enable_zoom_in"
+                android:textSize="12sp" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/settings_load_from_catch"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginBottom="15dp"
+                android:drawableStart="@drawable/ic_app_cache"
+                android:drawablePadding="15dp"
+                android:text="@string/load_catch"
+                android:textSize="12sp" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/settings_block_pop_ups"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginBottom="15dp"
+                android:drawableStart="@drawable/ic_hide_source"
+                android:drawablePadding="15dp"
+                android:text="Block PopUps"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"
+            app:dividerColor="@color/gray_color" />
+
+        <Button
+            android:id="@+id/add_free_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:clickable="false"
+            android:drawableEnd="@drawable/ic_diamond_more"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="@string/ads_free_experience_2_46" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"
+            app:dividerColor="@color/gray_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/settings_features"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/gray_color"
+            android:textSize="16sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/settings_chip_group"
+            style="@style/Widget.MaterialComponents.ChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/settings_chip_empty_bookmark"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_bookmark"
+                app:chipIconEnabled="true"
+                app:chipStrokeColor="@color/seed" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/settings_full_screen_mode"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/full_screen_mode"
+                app:chipIconEnabled="true"
+                app:chipStrokeColor="@color/seed" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/settings_chip_clear_app_cache"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_ache" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/settings_chip_block_cookies"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/allow_cookies" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"
+            app:dividerColor="@color/gray_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/privacy_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/gray_color"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical"
+            android:weightSum="5">
+            <TextView
+                android:id="@+id/settings_privacy_policy"
+                style="@style/Widget.Material3.CheckedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_vertical"
+                android:text="@string/privacy_policy"
+                android:textSize="15sp"
+                app:drawableEndCompat="@drawable/ic_privacy" />
+            <TextView
+                style="@style/Widget.Material3.CheckedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_vertical"
+                android:text="Rate Us"
+                android:textSize="15sp"
+                app:drawableEndCompat="@drawable/ic_star_rate" />
+            <TextView
+                android:id="@+id/settings_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_vertical"
+                app:drawableEndCompat="@drawable/ic_share"
+                android:text="@string/share"
+
+                />
+            <TextView
+                android:id="@+id/settings_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"
+                app:drawableEndCompat="@drawable/ic_email"
+                android:text="FeedBack and Suggestions" />
+
+
+            <TextView
+                android:id="@+id/settings_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                app:drawableEndCompat="@drawable/ic_get_app"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"
+                android:text="@string/get_more" />
+
+
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"
+            app:dividerColor="@color/gray_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/app_version"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

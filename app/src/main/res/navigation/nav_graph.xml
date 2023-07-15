@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/newsFragment">
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.supenovapro.nextlevelera.ui.trendNews.NewsFragment"
+        android:label="fragment_news_articles"
+        tools:layout="@layout/fragment_news_articles" >
+        <action
+            android:id="@+id/action_newsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_newsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_newsFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.supenovapro.nextlevelera.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        android:launchMode="singleTop"
+        app:launchSingleTop="true"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.supenovapro.nextlevelera.ui.details.DetailsFragment"
+        android:label="fragment_details"
+        app:launchSingleTop="true"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.supenovapro.nextlevelera.ui.bookmark.BookmarkFragment"
+        android:label="fragment_bookmarks"
+        app:launchSingleTop="true"
+        tools:layout="@layout/fragment_bookmarks" />
+
+
+</navigation>

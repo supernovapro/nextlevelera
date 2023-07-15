@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/top_menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings_title" />
+
+
+    <item
+        android:id="@+id/top_menu_privacy"
+        android:icon="@drawable/ic_privacy"
+        android:title="@string/privacy_policy" />
+
+    <item
+        android:id="@+id/top_menu_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share" />
+    <item
+        android:id="@+id/top_menu_more"
+        android:title="@string/more_app" />
+
+
+    <item android:id="@+id/top_menu_bookmark"
+        android:icon="@drawable/ic_bookmark_border"
+        android:title="@string/bookmark_title"
+        app:showAsAction="always|collapseActionView" />
+
+
+</menu>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Outlined"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    app:cardCornerRadius="22dp"
+    >
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/article_break_news_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/cnn_channel"
+        android:contentDescription="@string/more_icon"
+         />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/art_break_news_short_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="70dp"
+            android:ellipsize="end"
+            android:maxEms="10"
+            android:maxLines="1"
+            android:text="@string/title_breaking_news"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/art_break_news_long_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/art_break_news_short_title"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="3dp"
+            android:text="@string/long_text"
+            android:textColor="#A5A2A2"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/article_break_news_bookmark"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="@string/more_icon"
+            android:src="@drawable/ic_bookmark_border" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/art_break_news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/defult_time"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="60dp"
+        android:contentDescription="@string/more_icon"
+        android:layout_gravity="bottom"
+        android:background="#BDBDBD"/>
+</androidx.cardview.widget.CardView>

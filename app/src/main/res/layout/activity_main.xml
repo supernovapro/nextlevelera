@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background"
+    tools:context=".MainActivity">
+
+    <!-- Top View: Admob Banner -->
+    <FrameLayout
+        android:id="@+id/main_admob_banner_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+    </FrameLayout>
+    <!-- Center View: Fragment Container -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_main_fragments_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_admob_banner_ads"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+    <!-- Bottom View: Bottom Navigation -->
+    <!--<com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--android:id="@+id/bottom_navigation"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:elevation="5dp"-->
+    <!--android:visibility="gone"-->
+    <!--app:itemIconSize="20dp"-->
+    <!--app:labelVisibilityMode="unlabeled"-->
+    <!--app:menu="@menu/bottom_menu"/>-->
+
+</RelativeLayout>

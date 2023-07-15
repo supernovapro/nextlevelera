@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/app_background"
+    tools:context=".ui.bookmark.BookmarkFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/bookmark_frg_appbar"
+            android:layout_width="match_parent"
+            android:background="@drawable/top_bar_background"
+            android:visibility="visible"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/bookmark_frg_toolbar"
+            app:subtitleTextColor="@color/Whit_color"
+            app:subtitle="@string/bookmark_title"
+            app:navigationIconTint="@color/light_gray_color"
+            app:navigationIcon="@drawable/ic_bookmark_border"
+            >
+
+        </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/seed"
+        android:layout_below="@id/bookmark_frg_appbar"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookmark_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/bookmark_frg_appbar"
+        android:padding="2dp"
+        tools:listitem="@layout/item_bookmark_article" />
+
+    <TextView
+        android:id="@+id/text_view_no_bookmarks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_bookmarks"
+        android:visibility="visible"
+        tools:visibility="visible" />
+
+</RelativeLayout>
