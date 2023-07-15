@@ -68,4 +68,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) , DetailsAdapter.OnI
 
     override fun onClimateBookmarkClick(climateNews: ClimateNews) {
     }
+
+    override fun onClimateTwitClick(climate: ClimateNews) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClimateShareClick(climate: ClimateNews) {
+        TODO("Not yet implemented")
+    }
 }

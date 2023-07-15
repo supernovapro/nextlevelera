@@ -54,14 +54,14 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_bg_normal"
                     android:backgroundTint="#3F5668"
-                    app:drawableEndCompat="@drawable/ic_arrow_right"
-                    app:drawableStartCompat="@drawable/ic_arrow_left"
                     android:gravity="center"
+                    android:minWidth="100dp"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:minWidth="100dp"
                     android:text="@string/title_climate_news"
-                    android:textColor="#BCBCBC" />
+                    android:textColor="#BCBCBC"
+                    app:drawableEndCompat="@drawable/ic_arrow_right"
+                    app:drawableStartCompat="@drawable/ic_arrow_left" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/art_fragment_pager2_content"
@@ -154,8 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/climate_chang_news"
-                    app:drawableStartCompat="@drawable/ic_day_mode"
-                    app:drawableTint="#0DD615" />
+                     />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/art_frag_to_climate_frag"
@@ -164,7 +163,7 @@
                     android:layout_gravity="end"
                     android:text="@string/more_climate_news"
                     android:layout_marginEnd="5dp"
-                    android:textColor="#1C5C78"
+                    android:linksClickable="true"
                     />
             </LinearLayout>
 
@@ -172,6 +171,7 @@
                 android:id="@+id/art_fra_climate_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
+                android:padding="4dp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/round_bg"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -188,18 +188,19 @@
             android:layout_below="@+id/art_frag_extra_section"
             android:paddingStart="20dp"
             android:text="@string/breaking_news_title"
-            app:drawableStartCompat="@drawable/ic_awesome"
-            app:drawableTint="#DA1102" />
+             />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/art_fragment_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/art_frag_breaking_news_text"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/half_round_bg"
-            android:padding="3dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_trendnews_article" />
 </RelativeLayout>

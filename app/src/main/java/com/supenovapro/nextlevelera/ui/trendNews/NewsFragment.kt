@@ -130,6 +130,14 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
         trendViewModel.bookmarkClimateNews(climateNews)
     }
 
+    override fun onClimateTwitClick(climate: ClimateNews) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClimateShareClick(climate: ClimateNews) {
+        TODO("Not yet implemented")
+    }
+
     override fun onChannelClick(channel: NewsWebsite) {
         val intent = Intent(context, News::class.java)
         intent.putExtra("url", channel.websiteLink)
@@ -137,9 +145,9 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     override fun onArticleClick(article: TrendNews) {
-        val intent = Intent(context, News::class.java)
-        intent.putExtra("url", article.url)
-        startActivity(intent)
+       // val intent = Intent(context, News::class.java)
+       // intent.putExtra("url", article.url)
+      //  startActivity(intent)
     }
 
     override fun onBookmarkClick(article: TrendNews) {

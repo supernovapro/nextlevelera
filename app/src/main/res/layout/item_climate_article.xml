@@ -5,14 +5,11 @@
     style="@style/Widget.Material3.CardView.Outlined"
     android:layout_width="match_parent"
     android:layout_height="85dp"
-    app:cardCornerRadius="18dp"
-    app:cardElevation="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="2dp"
     >
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:padding="5dp"
-    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,6 +17,7 @@
         android:layout_gravity="bottom">
 
         <ImageView
+            android:id="@+id/art_news_climate_image"
             android:layout_width="70dp"
             android:layout_height="90dp"
             android:contentDescription="@string/more_icon"
@@ -35,9 +33,9 @@
             android:id="@+id/art_news_long_climate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="72dp"
             android:layout_marginTop="1dp"
             android:ellipsize="end"
@@ -53,10 +51,11 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="1dp"
             android:ellipsize="end"
-            android:textColor="#BA06212E"
+            android:layout_marginEnd="10dp"
+            android:textColor="#BA707070"
             android:maxEms="10"
             android:maxLines="1"
-            android:text="source : www.bbc.com"
+            android:text=" www.bbc.com"
             android:textSize="12sp" />
   <LinearLayout
       android:layout_width="match_parent"
@@ -67,18 +66,19 @@
       android:orientation="horizontal">
 
       <ImageView
-          android:id="@+id/art_news_bookmark_climate"
+          android:id="@+id/art_news_share_climate"
+
           android:layout_width="20dp"
           android:layout_height="20dp"
-          android:contentDescription="@string/more_icon"
+          android:contentDescription="@string/share_icon"
           android:src="@drawable/ic_share" />
       <ImageView
-          android:id="@+id/art_news_share_climate"
+          android:id="@+id/art_news_bookmark_climate"
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_marginStart="20dp"
           android:layout_marginEnd="20dp"
-          android:contentDescription="@string/more_icon"
+          android:contentDescription="@string/title_bookmarks"
           android:src="@drawable/ic_bookmark_border" />
 
       <ImageView
@@ -95,13 +95,11 @@
 
     </RelativeLayout>
 
-</FrameLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="60dp"
-        android:contentDescription="@string/more_icon"
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/seed"
         android:layout_gravity="bottom"
-        android:background="#6BCDFA"/>
+        />
+
 </androidx.cardview.widget.CardView>

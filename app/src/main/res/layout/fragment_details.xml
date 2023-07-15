@@ -12,6 +12,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/climate_change_appbar"
         android:layout_width="match_parent"
+        android:background="@drawable/top_bar_background"
         android:layout_alignParentTop="true"
         android:layout_height="wrap_content">
 

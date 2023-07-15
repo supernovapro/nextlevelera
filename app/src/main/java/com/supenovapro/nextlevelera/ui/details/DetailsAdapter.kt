@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.supenovapro.nextlevelera.R
 import com.supenovapro.nextlevelera.data.ClimateNews
 import com.supenovapro.nextlevelera.data.TrendNews
 import com.supenovapro.nextlevelera.databinding.ItemClimateArticleBinding
@@ -53,6 +56,20 @@ class DetailsAdapter(private val listener: OnItemClickListener) :
                     }
                 }
 
+                artNewsShareClimate.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val climate = getItem(position)
+                        listener.onClimateShareClick(climate)
+                    }
+                }
+                artNewsTwitterClimate.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val climate = getItem(position)
+                        listener.onClimateTwitClick(climate)
+                    }
+                }
             }
         }
 
@@ -60,8 +77,14 @@ class DetailsAdapter(private val listener: OnItemClickListener) :
         fun bind(article:ClimateNews){
             binding.apply {
                 if (containsBadTitle(article.title.trim())) return
-                artNewsClimate.text = cleanString(article.title.trim()).trim()
-                artNewsLongClimate.text = "at ${article.climateNewsDateFormat} news ${cleanString(article.title.trim()).trim()}"
+                artNewsClimate.text = " ${article.climateNewsDateFormat} ${article.source} "
+                artNewsLongClimate.text = "${cleanString(article.title.trim()).trim()}"
+                Glide.with(itemView)
+                    .load(article.imageUrl)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .error(R.drawable.ic_twitter)
+                    .into(artNewsClimateImage)
+
             }
         }
     }
@@ -69,6 +92,8 @@ class DetailsAdapter(private val listener: OnItemClickListener) :
     interface OnItemClickListener {
         fun onClimateClick(climateNews: ClimateNews)
         fun onClimateBookmarkClick(climateNews: ClimateNews)
+        fun onClimateTwitClick(climate: ClimateNews)
+        fun onClimateShareClick(climate: ClimateNews)
     }
 
 
