@@ -1,11 +1,13 @@
 package com.supenovapro.nextlevelera
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.hardware.display.DisplayManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.View
@@ -14,6 +16,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -35,11 +46,13 @@ import com.google.android.ump.ConsentInformation.OnConsentInfoUpdateFailureListe
 import com.google.android.ump.ConsentInformation.OnConsentInfoUpdateSuccessListener
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener,
-    BookmarkFragment.BookmarkFragmentListener {
+    BookmarkFragment.BookmarkFragmentListener , BillingClientStateListener,
+    PurchasesUpdatedListener , SettingsFragment.SettingFragmentListener {
 
     //Admob user message
     private lateinit var consentInformation: ConsentInformation
@@ -56,8 +69,10 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
 
     //data Store
     private lateinit var newsDataStore: NewsDataStore
-
     private var fullStatue = false
+
+    // GOOGLE IN-APP BILLING
+    private var billingClient : BillingClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +81,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
         val view = binding.root
         setContentView(view)
 
+        setUpBilling()
         MobileAds.initialize(this) { }
         initUserMessaging()
 
@@ -113,7 +129,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
             })
     }
 
-    fun loadForm() {
+    private fun loadForm() {
         Snackbar.make(binding.root,"load Form" , Snackbar.LENGTH_SHORT).show()
         UserMessagingPlatform.loadConsentForm(
             this,
@@ -179,55 +195,6 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
         loadBanner(adView)
     }
 
-    fun privacyPolicy() {
-        val privacyPolicy = Intent(Intent.ACTION_VIEW)
-        privacyPolicy.data = Uri.parse(
-            "https://sites.google.com/view/privacy-policy-dragon-era/home"
-        )
-        if (privacyPolicy.resolveActivity(getPackageManager()) != null) {
-            startActivity(privacyPolicy)
-        }
-    }
-
-    fun AppRating() {
-        val rate = Intent(Intent.ACTION_VIEW)
-        rate.data =
-            Uri.parse("https://play.google.com/store/apps/details?id=com.supenovapro.nextlevelera")
-        if (rate.resolveActivity(getPackageManager()) != null) {
-            startActivity(rate)
-        }
-    }
-
-    fun moreApps() {
-        val morapp = Intent(Intent.ACTION_VIEW)
-        morapp.data = Uri.parse("https://play.google.com/store/apps/developer?id=SUPER+NOVA+PRO")
-        if (morapp.resolveActivity(getPackageManager()) != null) {
-            startActivity(morapp)
-        }
-    }
-
-    fun sendEmail() {
-        val to = arrayOf("mohdhya99@yahoo.com")
-        val sendemail = Intent(Intent.ACTION_SEND)
-        sendemail.putExtra(Intent.EXTRA_EMAIL, to)
-        sendemail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-        sendemail.putExtra(Intent.EXTRA_TEXT, "Hi its :")
-        sendemail.type = "message/rfc822"
-        if (sendemail.resolveActivity(getPackageManager()) != null) {
-            startActivity(Intent.createChooser(sendemail, "Send Email"))
-        }
-    }
-
-    fun ShareApp() {
-        val share = Intent(Intent.ACTION_SEND)
-        share.type = "text/plain"
-        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_name))
-        if (share.resolveActivity(getPackageManager()) != null) {
-            startActivity(Intent.createChooser(share, "Share"))
-        }
-    }
-
-
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -248,4 +215,139 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
     }
 
 
+    private fun setUpBilling(){
+        billingClient = BillingClient.newBuilder(this)
+            .setListener(this)
+            .enablePendingPurchases()
+            .build()
+        billingClient!!.startConnection(this)
+    }
+
+    private fun connectToBillingService() {
+        try {
+            billingClient!!.startConnection(this)
+        } catch (ex: Exception) {
+            ex.fillInStackTrace()
+        }
+    }
+
+    private var reconnectMilliseconds: Long = 2000
+    private fun retryBillingServiceConnection() {
+        Handler().postDelayed({ connectToBillingService() }, reconnectMilliseconds)
+        reconnectMilliseconds *= 2
+
+    }
+
+    override fun onBillingServiceDisconnected() {
+        retryBillingServiceConnection()
+        // Try to restart the connection on the next request to
+        // Google Play by calling the startConnection() method.
+    }
+
+    override fun onBillingSetupFinished(billingResult: BillingResult) {
+        // The BillingClient is ready. You can query purchases here.
+
+        if (billingClient!!.isReady) {
+            queryAllProduct()
+        }
+    }
+
+
+    private var thisProductDetails: ProductDetails? = null
+    private fun queryAllProduct() {
+        val queryProductDetailsParams =
+            QueryProductDetailsParams.newBuilder()
+                .setProductList(
+                    ImmutableList.of(
+                        QueryProductDetailsParams.Product.newBuilder()
+                            .setProductId("ad_free_experience")
+                            .setProductType(BillingClient.ProductType.INAPP)
+                            .build()
+                    )
+                )
+                .build()
+        billingClient!!.queryProductDetailsAsync(queryProductDetailsParams)
+        { billingResult,
+          productDetailsList ->
+            // check billingResult
+            // process returned productDetailsList
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                // The query was successful.
+                val productDetails = productDetailsList[0]
+                  thisProductDetails = productDetails
+                // val offerToken: String = productDetails.subscriptionOfferDetails?.get(0)!!.offerToken
+//                binding.addFreeExp.apply {
+//                    isEnabled = true
+//                    isClickable = true
+//                    text = " ${productDetails.name} "
+//                    setOnClickListener {
+//                        launchPurchaseFlow(productDetails /*offerToken*/)
+//                    }
+//                }
+
+            } else {
+                // The query failed.
+            }
+        }
+    }
+
+    private fun launchPurchaseFlow(productDetails: ProductDetails) {
+        // An activity reference from which the billing flow will be launched.
+//        val activity: Activity = requireActivity()
+
+        val productDetailsParamsList = listOf(
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+                // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
+                .setProductDetails(productDetails)
+                // to get an offer token, call ProductDetails.subscriptionOfferDetails()
+                // for a list of offers that are available to the user
+                //  .setOfferToken(selectedOfferToken)
+                .build()
+        )
+
+        val billingFlowParams = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(productDetailsParamsList)
+            .build()
+
+        // Launch the billing flow
+        val billingResult = billingClient!!.launchBillingFlow(this@MainActivity, billingFlowParams)
+    }
+
+    override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+            for (purchase in purchases) {
+                handlePurchase(purchase)
+            }
+        } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+        } else {
+            // Handle any other error codes.
+        }
+    }
+
+    private fun handlePurchase(purchase: Purchase) {
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+            if (!purchase.isAcknowledged) {
+                val acknowledge = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+
+                billingClient!!.acknowledgePurchase(acknowledge) { billingResult ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        //superPrf.RemoveAds(true)
+                        //helpAds.setImageResource(R.drawable.i_help);
+                        lifecycleScope.launch {
+                            newsDataStore.saveAdFreeExp(true)
+                        }
+//                        binding.addFreeExp.isEnabled = false
+                    }
+                }
+            }
+        }
+
+    }
+
+    override fun buyAdFreeAction() {
+        if (thisProductDetails != null) thisProductDetails?.let { launchPurchaseFlow(it) }
+    }
 }

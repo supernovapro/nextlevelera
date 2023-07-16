@@ -277,7 +277,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
                 }
 
                 R.id.top_menu_share -> {
-                   utils!!.ShareApp()
+                   utils!!.shareApp()
                     true
                 }
 

@@ -218,12 +218,13 @@
                 android:textSize="15sp"
                 app:drawableEndCompat="@drawable/ic_privacy" />
             <TextView
+                android:id="@+id/settings_rate"
                 style="@style/Widget.Material3.CheckedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
-                android:text="Rate Us"
+                android:text="@string/rate_us"
                 android:textSize="15sp"
                 app:drawableEndCompat="@drawable/ic_star_rate" />
             <TextView
@@ -245,7 +246,7 @@
                 android:layout_marginBottom="15dp"
                 android:textSize="15sp"
                 app:drawableEndCompat="@drawable/ic_email"
-                android:text="FeedBack and Suggestions" />
+                android:text="@string/feedback" />
 
 
             <TextView
@@ -274,7 +275,7 @@
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/app_version"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 
     </LinearLayout>

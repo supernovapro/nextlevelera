@@ -60,5 +60,8 @@
         Tap the magnifying glass to start searching
         Tap the magnifying glass to start searching
         Tap the magnifying glass to start searching
-        Tap the magnifying glass to start searching</string>
+        Tap the magnifying glass to start searching
+    </string>
+    <string name="rate_us">Rate Us</string>
+    <string name="feedback">FeedBack and Suggestions</string>
 </resources>

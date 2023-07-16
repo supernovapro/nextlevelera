@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 
 class AppUtil constructor(private val context: Context) {
 
-    fun AppRating() {
+    fun appRating() {
         val rate = Intent(Intent.ACTION_VIEW)
         rate.data =
             Uri.parse("https://play.google.com/store/apps/details?id=com.supenovapro.nextlevelera")
@@ -47,7 +47,7 @@ class AppUtil constructor(private val context: Context) {
         }
     }
 
-    fun ShareApp() {
+    fun shareApp() {
         val share = Intent(Intent.ACTION_SEND)
         share.type = "text/plain"
         share.putExtra(Intent.EXTRA_TEXT, "app name")
