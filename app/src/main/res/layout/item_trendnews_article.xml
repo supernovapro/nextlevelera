@@ -67,11 +67,13 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="horizontal">
+
         <LinearLayout
+            android:id="@+id/article_break_news_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="30dp"
             android:orientation="horizontal">
         <ImageView
             android:layout_width="20dp"
@@ -79,6 +81,7 @@
             android:contentDescription="@string/more_icon"
             android:src="@drawable/ic_share" />
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/article_news_share_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18"
@@ -90,14 +93,15 @@
                 android:id="@+id/article_break_news_bookmark"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="30dp"
                 android:contentDescription="@string/bookmarks"
                 android:src="@drawable/ic_bookmark_border" />
             <LinearLayout
+                android:id="@+id/article_break_news_twit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="30dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="20dp"
@@ -106,6 +110,7 @@
                     android:src="@drawable/ic_twitter"
                     app:tint="@color/gray_color" />
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/article_news_twit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="75"
@@ -124,6 +129,7 @@
                 android:contentDescription="@string/more_icon"
                 android:src="@drawable/ic_views_chart" />
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/article_news_views_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="285k"

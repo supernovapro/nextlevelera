@@ -16,8 +16,7 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
     ListAdapter<TrendNews, TrendNewsAdapter.TrendNewsViewHolder>(NEWS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendNewsViewHolder {
-        val binding =
-            ItemTrendnewsArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTrendnewsArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return TrendNewsViewHolder(binding)
     }
@@ -30,8 +29,7 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
     }
 
 
-    inner class TrendNewsViewHolder(private val binding: ItemTrendnewsArticleBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class TrendNewsViewHolder(private val binding: ItemTrendnewsArticleBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
                 root.setOnClickListener {
@@ -41,6 +39,21 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
                         listener.onArticleClick(news)
                     }
                 }
+                articleBreakNewsShare.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val newsShare = getItem(position)
+                        listener.onShareClick(newsShare)
+                    }
+                }
+
+                articleBreakNewsTwit.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val newsTwit = getItem(position)
+                        listener.onTwitterClick(newsTwit)
+                    }
+                }
                 articleBreakNewsBookmark.setOnClickListener {
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
@@ -48,7 +61,6 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
                         listener.onBookmarkClick(newsBookmark)
                     }
                 }
-
             }
         }
 
@@ -62,6 +74,9 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
                 artBreakNewsLongTitle.text = article.title
                 artBreakNewsShortTitle.text = article.title
                 artBreakNewsTime.text = article.newsArticleDateFormat
+                articleNewsShareText.text = article.share.toString()
+                articleNewsTwitText.text = article.twit.toString()
+                articleNewsViewsText.text = article.views.toString()
             }
         }
     }
@@ -69,7 +84,8 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
     interface OnItemClickListener {
         fun onArticleClick(article: TrendNews)
         fun onBookmarkClick(article: TrendNews)
-
+        fun onTwitterClick(newsTwit: TrendNews)
+        fun onShareClick(newsShare: TrendNews)
     }
 
     companion object {

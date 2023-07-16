@@ -9,8 +9,6 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="2dp"
     >
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,31 +62,77 @@
       android:gravity="center"
       android:layout_below="@id/art_news_long_climate"
       android:orientation="horizontal">
-
-      <ImageView
+      <LinearLayout
           android:id="@+id/art_news_share_climate"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:layout_marginEnd="30dp"
+          android:orientation="horizontal">
+          <ImageView
+              android:layout_width="20dp"
+              android:layout_height="20dp"
+              android:contentDescription="@string/more_icon"
+              android:src="@drawable/ic_share" />
+          <com.google.android.material.textview.MaterialTextView
+              android:id="@+id/art_share_climate_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="15"
+              style="@style/TextAppearance.AppCompat.Small"
+              android:textSize="12sp" />
 
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:contentDescription="@string/share_icon"
-          android:src="@drawable/ic_share" />
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:layout_marginEnd="30dp"
+          android:orientation="horizontal">
+          <ImageView
+              android:layout_width="20dp"
+              android:layout_height="20dp"
+              android:contentDescription="@string/more_icon"
+              android:src="@drawable/ic_eye" />
+          <com.google.android.material.textview.MaterialTextView
+              android:id="@+id/art_views_climate_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="15"
+              style="@style/TextAppearance.AppCompat.Small"
+              android:textSize="12sp" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/art_news_twitter_climate"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:layout_marginEnd="30dp"
+          android:orientation="horizontal">
+          <ImageView
+              android:layout_width="20dp"
+              android:layout_height="20dp"
+              app:tint="@color/gray_color"
+              android:contentDescription="@string/more_icon"
+              android:src="@drawable/ic_twitter" />
+          <com.google.android.material.textview.MaterialTextView
+              android:id="@+id/art_twitter_climate_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="15"
+              style="@style/TextAppearance.AppCompat.Small"
+              android:textSize="12sp" />
+
+      </LinearLayout>
       <ImageView
           android:id="@+id/art_news_bookmark_climate"
           android:layout_width="20dp"
           android:layout_height="20dp"
-          android:layout_marginStart="20dp"
-          android:layout_marginEnd="20dp"
-          android:contentDescription="@string/title_bookmarks"
-          android:src="@drawable/ic_bookmark_border" />
-
-      <ImageView
-          android:id="@+id/art_news_twitter_climate"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginEnd="15dp"
           android:contentDescription="@string/share_icon"
-          android:src="@drawable/ic_twitter"
-          app:tint="@color/gray_color" />
+          android:src="@drawable/ic_bookmark_border"
+           />
   </LinearLayout>
 
 

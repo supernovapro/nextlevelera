@@ -1,18 +1,26 @@
 package com.supenovapro.nextlevelera.util
 
-import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AlertDialog
+import android.R
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
+import android.view.View
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
+
+
 class AppUtil constructor(private val context: Context) {
 
     fun AppRating() {
         val rate = Intent(Intent.ACTION_VIEW)
         rate.data =
             Uri.parse("https://play.google.com/store/apps/details?id=com.supenovapro.nextlevelera")
-        if (rate.resolveActivity(context.getPackageManager()) != null) {
+        if (rate.resolveActivity(context.packageManager) != null) {
             context.startActivity(rate)
         }
     }
@@ -21,20 +29,20 @@ class AppUtil constructor(private val context: Context) {
         //"https://play.google.com/store/apps/developer?id=SUPER+NOVA+PRO";
         val morapp = Intent(Intent.ACTION_VIEW)
         morapp.data = Uri.parse("https://play.google.com/store/apps/developer?id=SUPER+NOVA+PRO")
-        if (morapp.resolveActivity(context.getPackageManager()) != null) {
+        if (morapp.resolveActivity(context.packageManager) != null) {
             context.startActivity(morapp)
         }
     }
 
     fun sendEmail() {
-        val to = arrayOf("mohdhya99@yahoo.com")
+        val to = arrayOf("mohdhya99@yahoo.com","mohdhya90@gmail.com")
         val sendemail = Intent(Intent.ACTION_SEND)
         sendemail.putExtra(Intent.EXTRA_EMAIL, to)
 
-        sendemail.putExtra(Intent.EXTRA_SUBJECT, "app name")
+        sendemail.putExtra(Intent.EXTRA_SUBJECT, "Super nova Pro Team")
         sendemail.putExtra(Intent.EXTRA_TEXT, "hi there i'am :")
         sendemail.type = "message/rfc822"
-        if (sendemail.resolveActivity(context.getPackageManager()) != null) {
+        if (sendemail.resolveActivity(context.packageManager) != null) {
             context.startActivity(Intent.createChooser(sendemail, "Send Email"))
         }
     }
@@ -43,7 +51,7 @@ class AppUtil constructor(private val context: Context) {
         val share = Intent(Intent.ACTION_SEND)
         share.type = "text/plain"
         share.putExtra(Intent.EXTRA_TEXT, "app name")
-        if (share.resolveActivity(context.getPackageManager()) != null) {
+        if (share.resolveActivity(context.packageManager) != null) {
             context.startActivity(Intent.createChooser(share, "Share"))
         }
     }
@@ -69,13 +77,22 @@ class AppUtil constructor(private val context: Context) {
         //}
     }
 
-    fun createMagDialog(context: Context): AlertDialog {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Mag Dialog")
-        builder.setMessage("This is a modal dialog.")
-        builder.setPositiveButton("OK", null)
+    fun createMagDialog(context: Context) {
+        val dialog = Dialog(context, R.style.TextAppearance_Theme_Dialog)
+//        dialog.setContentView(R.layout.me_info)
+//        val MoreImage = dialog.findViewById<ImageView>(R.id.me_more_btn)
+//
+//        val twitterImage = dialog.findViewById<ImageView>(R.id.me_twitter_btn)
+//
+//        val yahooImage = dialog.findViewById<ImageView>(R.id.me_yahoo_btn)
+//
+//        twitterImage.setOnClickListener { v: View? -> OpenTwitterAccount() }
+//
+//        MoreImage.setOnClickListener { v: View? -> moreApps() }
+//        yahooImage.setOnClickListener { v: View? -> sendEmail() }
 
-        return builder.create()
+
+             //  dialog.show()
     }
 
     fun isInternetAvailable(context: Context): Boolean {
@@ -87,4 +104,7 @@ class AppUtil constructor(private val context: Context) {
                         networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
                 )
     }
+
+
+
 }

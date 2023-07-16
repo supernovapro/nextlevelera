@@ -2,6 +2,7 @@ package com.supenovapro.nextlevelera.ui.trendNews
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
@@ -22,6 +23,7 @@ import com.supenovapro.nextlevelera.ui.browser.News
 import com.supenovapro.nextlevelera.ui.details.DetailsAdapter
 import com.supenovapro.nextlevelera.ui.details.DetailsFragment
 import com.supenovapro.nextlevelera.ui.settings.SettingsFragment
+import com.supenovapro.nextlevelera.util.AppUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,16 +36,18 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     private val trendViewModel: NewsViewModel by viewModels()
     private var _binding: FragmentNewsArticlesBinding? = null
     private var bookmarkSize = 0
+
+    private var utils:AppUtil? = null
     private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNewsArticlesBinding.bind(view)
-        val website = newsWebsites()
+
         val pagerChannelsAdapter = NewsChannelsAdapter(this)
         val climateAdapter = DetailsAdapter(this)
         val adapter = TrendNewsAdapter(this)
-
+            utils = AppUtil(requireContext())
         binding.apply {
             val toolbar = mainActToolbar
             toolbar.inflateMenu(R.menu.top_menu)
@@ -92,6 +96,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
         trendViewModel.trendNews.observe(viewLifecycleOwner) { result ->
             adapter.submitList(result.data)
         }
+
         trendViewModel.climateNews.observe(viewLifecycleOwner) { climate ->
             if (climate.data?.size!! > 10) {
                 climateAdapter.submitList(climate.data.subList(0, 3))
@@ -131,11 +136,41 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     override fun onClimateTwitClick(climate: ClimateNews) {
-        TODO("Not yet implemented")
+        try {
+        // Create a Twitter intent
+        val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(
+                "twitter://post?text=#trend_News%20#news%20#climate_change:%20${climate.title}&url=${climate.url}"
+            )
+
+            // If Twitter app is not installed, open the Twitter website
+            if (intent.resolveActivity(requireActivity().packageManager) == null) {
+                intent.data = Uri.parse(
+                    "https://twitter.com/intent/tweet?text=#trend_News%20#news%20#climate_change:%20${climate.title}&url=${climate.url}"
+                )
+            }
+        // Start the Twitter activity
+        startActivity(intent)
+        }catch(ex:Exception){ex.fillInStackTrace()}
     }
 
     override fun onClimateShareClick(climate: ClimateNews) {
-        TODO("Not yet implemented")
+        // Create a share intent
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+
+        // Set the text of the share
+        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending news: ${climate.title}")
+
+        // Set the URL of the news article
+        intent.putExtra(Intent.EXTRA_TEXT, climate.url)
+
+        // Set the image of the news article
+        intent.putExtra(Intent.EXTRA_STREAM, climate.imageUrl)
+
+        // Start the share activity
+        startActivity(Intent.createChooser(intent, "Share Climate Change news"))
+
     }
 
     override fun onChannelClick(channel: NewsWebsite) {
@@ -145,13 +180,54 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     override fun onArticleClick(article: TrendNews) {
-       // val intent = Intent(context, News::class.java)
+
+        // val intent = Intent(context, News::class.java)
        // intent.putExtra("url", article.url)
       //  startActivity(intent)
     }
 
     override fun onBookmarkClick(article: TrendNews) {
         trendViewModel.bookmarkNewsArticle(article)
+    }
+
+    override fun onTwitterClick(newsTwit: TrendNews) {
+       try {
+           // Create a Twitter intent
+           val intent = Intent(Intent.ACTION_VIEW)
+           intent.data = Uri.parse(
+               "twitter://post?text=#trend_News%20#news%20#climate_change:%20${newsTwit.title}&url=${newsTwit.url}"
+           )
+
+           // If Twitter app is not installed, open the Twitter website
+           if (intent.resolveActivity(requireActivity().packageManager) == null) {
+               intent.data = Uri.parse(
+                   "https://twitter.com/intent/tweet?text=#trend_News%20#news%20#climate_change:%20${newsTwit.title}&url=${newsTwit.url}"
+               )
+           }
+
+           // Start the Twitter activity
+           startActivity(intent)
+       }catch (ex:Exception){ex.fillInStackTrace()}
+
+    }
+
+    override fun onShareClick(newsShare: TrendNews) {
+        // Create a share intent
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+
+        // Set the text of the share
+        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending news: ${newsShare.title}")
+
+        // Set the URL of the news article
+        intent.putExtra(Intent.EXTRA_TEXT, newsShare.url)
+
+        // Set the image of the news article
+        intent.putExtra(Intent.EXTRA_STREAM, newsShare.imageUrl)
+
+        // Start the share activity
+        startActivity(Intent.createChooser(intent, "Share Breaking news"))
+
     }
 
     private fun setTopMenu(toolbar: MaterialToolbar) {
@@ -184,24 +260,24 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
                         fragmentTransaction.addToBackStack("BookmarkFragment")
                         fragmentTransaction.commit()
                     }else{
-                        Snackbar.make(binding.root, "Bookmark List Empty", Snackbar.LENGTH_LONG)
+                        Snackbar.make(binding.root, "Bookmark List Empty", Snackbar.LENGTH_SHORT)
                             .show()
                     }
                     true
                 }
 
                 R.id.top_menu_more -> {
-                    Snackbar.make(binding.root, "top more ", Snackbar.LENGTH_LONG).show()
+                    utils!!.moreApps()
                     true
                 }
 
                 R.id.top_menu_privacy -> {
-                    Snackbar.make(binding.root, "top privacy", Snackbar.LENGTH_LONG).show()
+                    utils!!.privacyPolicy()
                     true
                 }
 
                 R.id.top_menu_share -> {
-                    Snackbar.make(binding.root, "top share ", Snackbar.LENGTH_LONG).show()
+                   utils!!.ShareApp()
                     true
                 }
 

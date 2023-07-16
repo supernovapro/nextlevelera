@@ -84,7 +84,9 @@ class DetailsAdapter(private val listener: OnItemClickListener) :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_twitter)
                     .into(artNewsClimateImage)
-
+                artViewsClimateText.text = article.views.toString()
+                artShareClimateText.text = article.share.toString()
+                artTwitterClimateText.text = article.twit.toString()
             }
         }
     }

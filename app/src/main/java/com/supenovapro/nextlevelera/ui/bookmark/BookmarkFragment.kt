@@ -64,10 +64,10 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmarks),
 
         bookmarkViewModel.bookmarkNews.observe(viewLifecycleOwner) { bookmarks ->
             if (bookmarks.isNotEmpty()) {
-                bookmarkSize = bookmarks.size
                 binding.textViewNoBookmarks.visibility = View.GONE
 
             } else binding.textViewNoBookmarks.visibility = View.VISIBLE
+            bookmarkSize = bookmarks.size
             bookAdapter.submitList(bookmarks)
         }
     }
@@ -92,8 +92,13 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmarks),
             when (topItem.itemId) {
                 R.id.all_bookmark_delete -> {
                     if (bookmarkSize > 0)
-                        deleteBookmarkDialog().show()
-                    else Snackbar.make(binding.root, "Bookmark List Empty", Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            binding.root, " Are Sure You want \n" +
+                                    " Delete Your All Bookmarked News.", Snackbar.LENGTH_LONG
+                        ).setAction("Yes") {
+                            bookmarkViewModel.deleteAllBookmarkArticles()
+                        }.show()
+                    else Snackbar.make(binding.root, "Bookmark List Empty", Snackbar.LENGTH_SHORT)
                         .show()
 
                     true
@@ -106,19 +111,6 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmarks),
         }
     }
 
-    private fun deleteBookmarkDialog(): AlertDialog {
-        val builder = AlertDialog.Builder(requireContext().applicationContext)
-        builder.setTitle("Delete")
-        builder.setMessage("Are Sure You want \n Delete Your All Bookmarked News.")
-        builder.setPositiveButton("YES") { dialog, _ ->
-            bookmarkViewModel.deleteAllBookmarkArticles()
-            dialog.cancel()
-        }
-        builder.setNegativeButton("No") { dialog, _ ->
-            dialog.cancel()
-        }
-        return builder.create()
-    }
 
     //send data back main activity
     interface BookmarkFragmentListener {

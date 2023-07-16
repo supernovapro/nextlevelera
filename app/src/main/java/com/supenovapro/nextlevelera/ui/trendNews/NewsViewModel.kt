@@ -27,15 +27,12 @@ class NewsViewModel @Inject constructor(
     val climateNews = repository.getClimate().asLiveData()
 
     fun bookmarkNewsArticle(article: TrendNews) {
-        val currentTimeMillis = article.updatedAt
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val currentTime = Date(currentTimeMillis)
-        val formattedTime = dateFormat.format(currentTime)
+
         viewModelScope.launch {
             repository.insertBookmarks(
                 TrendNewsBookmark(
                     imageUrl = article.imageUrl,
-                    newsContent = formattedTime ,
+                    newsContent = article.newsArticleDateFormat ,
                     source = article.source,
                     title = article.title,
                     url = article.url
@@ -45,15 +42,12 @@ class NewsViewModel @Inject constructor(
     }
 
     fun bookmarkClimateNews(climateNews: ClimateNews) {
-        val currentTimeMillis = climateNews.updatedAt
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val currentTime = Date(currentTimeMillis)
-        val formattedTime = dateFormat.format(currentTime)
+
         viewModelScope.launch {
             repository.insertBookmarks(
                 TrendNewsBookmark(
                     imageUrl = climateNews.imageUrl,
-                    newsContent = formattedTime ,
+                    newsContent = climateNews.climateNewsDateFormat ,
                     source = climateNews.source,
                     title = climateNews.title,
                     url = climateNews.url
@@ -62,6 +56,8 @@ class NewsViewModel @Inject constructor(
         }
 
     }
+
+
 
 
 
