@@ -4,21 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Widget.Material3.CardView.Outlined"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
-    app:cardCornerRadius="22dp"
-    android:layout_margin="3dp"
-    app:cardElevation="5dp"
+    android:layout_height="100dp"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true"
     >
-    <ImageView
-        android:layout_width="5dp"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/more_icon"
-        android:layout_gravity="end"
-        android:background="#BDBDBD"/>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:padding="5dp"
-    android:layout_height="120dp">
 
     <ImageView
         android:id="@+id/bookmark_news_image"
@@ -65,16 +54,15 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="2dp"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="2"
             android:padding="3dp"
             android:text="@string/search_instructions"
-            android:textColor="#A5A2A2"
             android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/bookmark_remove"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
@@ -95,13 +83,4 @@
             android:textSize="12sp" />
 
     </RelativeLayout>
-
-</FrameLayout>
-
-    <ImageView
-        android:layout_width="5dp"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/more_icon"
-        android:layout_gravity="start"
-        android:background="#BDBDBD"/>
 </androidx.cardview.widget.CardView>

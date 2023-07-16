@@ -13,7 +13,11 @@ data class TrendNews(
     val url: String?,
     val imageUrl: String?,
     val source: String?,
-    val newsContent: String?,
+    val likes: Int?,
+    val views: Int?,
+    val commentsCount: Int?,
+    val postComments: String?,
+    val newsComment: String?,
     val updatedAt: Long = System.currentTimeMillis()
 ) : Parcelable{
 
