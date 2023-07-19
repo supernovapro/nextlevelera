@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="85dp"
     app:cardCornerRadius="10dp"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="2dp"
     >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,15 +15,20 @@
         <ImageView
             android:id="@+id/art_news_climate_image"
             android:layout_width="70dp"
-            android:layout_height="90dp"
-            android:contentDescription="@string/more_icon"
-            android:layout_gravity="start"
+            android:layout_height="80dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
+            android:layout_gravity="start"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/round_bg_normal"
+            android:contentDescription="@string/more_icon"
+            android:padding="3dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher"
-            />
+            android:src="@mipmap/ic_launcher" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/art_news_long_climate"
@@ -34,7 +37,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:layout_marginStart="72dp"
+            android:layout_marginStart="77dp"
             android:layout_marginTop="1dp"
             android:ellipsize="end"
             android:maxLines="2"
@@ -46,94 +49,115 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="1dp"
+            android:layout_marginTop="42dp"
             android:ellipsize="end"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="25dp"
             android:textColor="#BA707070"
             android:maxEms="10"
             android:maxLines="1"
-            android:text=" www.bbc.com"
+            android:text="source. www.bbc.com"
             android:textSize="12sp" />
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:layout_alignParentBottom="true"
-      android:gravity="center"
-      android:layout_below="@id/art_news_long_climate"
-      android:orientation="horizontal">
-      <LinearLayout
-          android:id="@+id/art_news_share_climate"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:layout_marginEnd="30dp"
-          android:orientation="horizontal">
-          <ImageView
-              android:layout_width="20dp"
-              android:layout_height="20dp"
-              android:contentDescription="@string/more_icon"
-              android:src="@drawable/ic_share" />
-          <com.google.android.material.textview.MaterialTextView
-              android:id="@+id/art_share_climate_text"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="15"
-              style="@style/TextAppearance.AppCompat.Small"
-              android:textSize="12sp" />
 
-      </LinearLayout>
-      <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:layout_marginEnd="30dp"
-          android:orientation="horizontal">
-          <ImageView
-              android:layout_width="20dp"
-              android:layout_height="20dp"
-              android:contentDescription="@string/more_icon"
-              android:src="@drawable/ic_eye" />
-          <com.google.android.material.textview.MaterialTextView
-              android:id="@+id/art_views_climate_text"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="15"
-              style="@style/TextAppearance.AppCompat.Small"
-              android:textSize="12sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="end"
+            android:orientation="horizontal">
 
-      </LinearLayout>
+            <LinearLayout
+                android:id="@+id/art_news_share_climate"
+                android:layout_width="53dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/round_bg_normal"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="1dp">
 
-      <LinearLayout
-          android:id="@+id/art_news_twitter_climate"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:layout_marginEnd="30dp"
-          android:orientation="horizontal">
-          <ImageView
-              android:layout_width="20dp"
-              android:layout_height="20dp"
-              app:tint="@color/gray_color"
-              android:contentDescription="@string/more_icon"
-              android:src="@drawable/ic_twitter" />
-          <com.google.android.material.textview.MaterialTextView
-              android:id="@+id/art_twitter_climate_text"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="15"
-              style="@style/TextAppearance.AppCompat.Small"
-              android:textSize="12sp" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/more_icon"
+                    android:src="@drawable/ic_share" />
 
-      </LinearLayout>
-      <ImageView
-          android:id="@+id/art_news_bookmark_climate"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:contentDescription="@string/share_icon"
-          android:src="@drawable/ic_bookmark_border"
-           />
-  </LinearLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/art_share_climate_text"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="985k"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/round_bg_normal"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="1dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/more_icon"
+                    android:src="@drawable/ic_eye" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/art_views_climate_text"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="555k"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/art_news_twitter_climate"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/round_bg_normal"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="1dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/more_icon"
+                    android:src="@drawable/ic_twitter"
+                    app:tint="@color/ic_color" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/art_twitter_climate_text"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="855k"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/art_news_bookmark_climate"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="7dp"
+                android:background="@drawable/round_bg_normal"
+                android:contentDescription="@string/share_icon"
+                android:padding="1dp"
+                android:src="@drawable/ic_bookmark_border" />
+        </LinearLayout>
 
 
 
@@ -142,7 +166,7 @@
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:dividerColor="@color/seed"
+        app:dividerColor="@color/card_bg"
         android:layout_gravity="bottom"
         />
 

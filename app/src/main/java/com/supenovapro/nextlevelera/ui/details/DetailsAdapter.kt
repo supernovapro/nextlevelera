@@ -17,25 +17,27 @@ import java.text.DateFormat
 
 class DetailsAdapter(private val listener: OnItemClickListener) :
     ListAdapter<ClimateNews, DetailsAdapter.ClimateChangeViewHolder>(
-    CLIMATE_NEWS_COMPARATOR) {
+        CLIMATE_NEWS_COMPARATOR
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClimateChangeViewHolder {
-        val binding = ItemClimateArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemClimateArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ClimateChangeViewHolder(binding)
     }
 
 
-
     override fun onBindViewHolder(holder: ClimateChangeViewHolder, position: Int) {
         val currentClimate = getItem(position)
-        if (currentClimate != null){
+        if (currentClimate != null) {
             holder.bind(currentClimate)
         }
     }
 
     inner class ClimateChangeViewHolder(
-        private val binding: ItemClimateArticleBinding):
+        private val binding: ItemClimateArticleBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -74,19 +76,23 @@ class DetailsAdapter(private val listener: OnItemClickListener) :
         }
 
 
-        fun bind(article:ClimateNews){
+        fun bind(article: ClimateNews) {
             binding.apply {
-                if (containsBadTitle(article.title.trim())) return
-                artNewsClimate.text = " ${article.climateNewsDateFormat} ${article.source} "
-                artNewsLongClimate.text = "${cleanString(article.title.trim()).trim()}"
-                Glide.with(itemView)
-                    .load(article.imageUrl)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_twitter)
-                    .into(artNewsClimateImage)
-                artViewsClimateText.text = article.views.toString()
-                artShareClimateText.text = article.share.toString()
-                artTwitterClimateText.text = article.twit.toString()
+                if (article.title.trim() != "")
+                if (!containsBadTitle(article.title.trim()) && !article.url!!.contains("https://twitter.com/nytclimate")) {
+                    artNewsClimate.text = "source: ${article.source}"
+                    artNewsLongClimate.text = "${cleanString(article.title.trim()).trim()}"
+                    Glide.with(itemView)
+                        .load(article.imageUrl)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .error(R.mipmap.ic_launcher)
+                        .into(artNewsClimateImage)
+                    artViewsClimateText.text = viewsNum(article.views)
+                    artShareClimateText.text = shareNum(article.share)
+                    artTwitterClimateText.text = twitNum(article.twit)
+                }else{
+                    return@apply
+                }
             }
         }
     }
@@ -101,19 +107,69 @@ class DetailsAdapter(private val listener: OnItemClickListener) :
 
     companion object {
         private val CLIMATE_NEWS_COMPARATOR = object : DiffUtil.ItemCallback<ClimateNews>() {
-            override fun areItemsTheSame(oldItem: ClimateNews, newItem: ClimateNews): Boolean = oldItem.title == newItem.title
+            override fun areItemsTheSame(oldItem: ClimateNews, newItem: ClimateNews): Boolean =
+                oldItem.title == newItem.title
 
-            override fun areContentsTheSame(oldItem: ClimateNews, newItem: ClimateNews): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: ClimateNews, newItem: ClimateNews): Boolean =
+                oldItem == newItem
         }
     }
 
-    private fun containsBadTitle(title:String):Boolean{
-        return title.contains("<img src=") || title.contains("@nytclimatetwitter page")
+    private fun containsBadTitle(title: String): Boolean {
+        return title.contains("<img src=") || title.contains("@nytclimatetwitter page") || title.contains(
+            "@nytclimate"
+        )
     }
 
     private fun cleanString(string: String): String {
         return string.replace("\n", "").replace("\t", "").replace("  ", " ")
 
+    }
+
+
+    private fun viewsNum(views: Int?): String {
+        return if (views == null)
+            "${((Math.random() * (903 - 11.0 + 1)) + 11.0).toInt()}k"
+        else {
+            "${views}k"
+        }
+    }
+
+    private fun twitNum(twit: Int?): String {
+        val random = ((Math.random() * (53.0 - 1.0 + 1)) + 1.0)
+        return if (twit == null) {
+            if (random <= 12) "${random.toString().substring(0,3)}k"
+            else "${random.toInt()}"
+        } else {
+
+            "$twit"
+        }
+    }
+
+    private fun shareNum(share: Int?): String {
+       val random = ((Math.random() * (18.0 - 3.0 + 1)) +3.0)
+        return if (share == null)
+            if (random <= 9) "${random.toString().substring(0,3)}k"
+            else "${random.toInt()}"
+        else {
+            "$share"
+        }
+    }
+
+    private fun commentsNum(comments: Int?): String {
+        return if (comments == 0)
+            "${((Math.random() * (11.0 - 1.0 + 1)) + 1.0).toInt()}"
+        else {
+            "$comments"
+        }
+    }
+
+    private fun likesNum(likes: Int?): String {
+        return if (likes == 0)
+            "${((Math.random() * (26 - 1.0 + 1)) + 1.0).toInt()}"
+        else {
+            "$likes"
+        }
     }
 
 }

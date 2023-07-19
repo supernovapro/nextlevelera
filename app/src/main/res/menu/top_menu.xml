@@ -23,7 +23,7 @@
 
 
     <item android:id="@+id/top_menu_bookmark"
-        android:icon="@drawable/ic_bookmark_border"
+        android:icon="@drawable/ic_bookmarks"
         android:title="@string/bookmark_title"
         app:showAsAction="always|collapseActionView" />
 

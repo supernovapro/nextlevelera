@@ -1,10 +1,7 @@
 package com.supenovapro.nextlevelera
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.hardware.display.DisplayManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,8 +10,6 @@ import android.view.Display
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
@@ -28,8 +23,16 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.ump.ConsentForm
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 import com.supenovapro.nextlevelera.databinding.ActivityMainBinding
 import com.supenovapro.nextlevelera.ui.bookmark.BookmarkFragment
 import com.supenovapro.nextlevelera.ui.details.DetailsFragment
@@ -38,21 +41,14 @@ import com.supenovapro.nextlevelera.ui.trendNews.NewsFragment
 import com.supenovapro.nextlevelera.util.NewsDataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import com.google.android.ump.ConsentForm
-import com.google.android.ump.ConsentInformation
-import com.google.android.ump.ConsentInformation.OnConsentInfoUpdateFailureListener
-import com.google.android.ump.ConsentInformation.OnConsentInfoUpdateSuccessListener
-import com.google.android.ump.ConsentRequestParameters
-import com.google.android.ump.UserMessagingPlatform
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener,
-    BookmarkFragment.BookmarkFragmentListener , BillingClientStateListener,
-    PurchasesUpdatedListener , SettingsFragment.SettingFragmentListener {
+    BookmarkFragment.BookmarkFragmentListener, BillingClientStateListener,
+    PurchasesUpdatedListener, SettingsFragment.SettingFragmentListener,
+    DetailsFragment.ClimateFragmentListener {
 
     //Admob user message
     private lateinit var consentInformation: ConsentInformation
@@ -72,7 +68,10 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
     private var fullStatue = false
 
     // GOOGLE IN-APP BILLING
-    private var billingClient : BillingClient? = null
+    private var billingClient: BillingClient? = null
+
+    //ADMOB  Interstitial Ad
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,10 +79,21 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
         newsDataStore = NewsDataStore(application)
         val view = binding.root
         setContentView(view)
-
+        var appFreeExpState = false
         setUpBilling()
-        MobileAds.initialize(this) { }
-        initUserMessaging()
+        lifecycleScope.launch {
+            appFreeExpState = newsDataStore.isAdFreeExp.first()
+
+        }
+        if (!appFreeExpState) {
+            MobileAds.initialize(this) {
+
+            }
+            initUserMessaging()
+           // loadInterstitialAd()
+            //actBannerAds()
+
+        }
 
         binding.apply {
             initFragments()
@@ -130,26 +140,23 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
     }
 
     private fun loadForm() {
-        Snackbar.make(binding.root,"load Form" , Snackbar.LENGTH_SHORT).show()
         UserMessagingPlatform.loadConsentForm(
             this,
             {
                 this.consentForm = it
                 if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
                     consentForm.show(
-                        this,
-                        ConsentForm.OnConsentFormDismissedListener {
-                            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED) {
-                                // App can start requesting ads.
-                                actBannerAds()
-                                Snackbar.make(binding.root,"ads show" , Snackbar.LENGTH_SHORT).show()
-
-                            }
-
-                            // Handle dismissal by reloading form.
-                            loadForm()
+                        this
+                    ) {
+                        if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED) {
+                            // App can start requesting ads.
+                            actBannerAds()
+                            loadInterstitialAd()
                         }
-                    )
+
+                        // Handle dismissal by reloading form.
+                        loadForm()
+                    }
                 }
             },
             {
@@ -195,6 +202,31 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
         loadBanner(adView)
     }
 
+    private fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            this,
+            "ca-app-pub-3940256099942544/1033173712",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            })
+
+    }
+
+    private fun showAds() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd?.show(this)
+        } else {
+            loadInterstitialAd()
+        }
+    }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -214,8 +246,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
         }
     }
 
-
-    private fun setUpBilling(){
+    private fun setUpBilling() {
         billingClient = BillingClient.newBuilder(this)
             .setListener(this)
             .enablePendingPurchases()
@@ -252,7 +283,6 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
         }
     }
 
-
     private var thisProductDetails: ProductDetails? = null
     private fun queryAllProduct() {
         val queryProductDetailsParams =
@@ -274,7 +304,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 // The query was successful.
                 val productDetails = productDetailsList[0]
-                  thisProductDetails = productDetails
+                thisProductDetails = productDetails
                 // val offerToken: String = productDetails.subscriptionOfferDetails?.get(0)!!.offerToken
 //                binding.addFreeExp.apply {
 //                    isEnabled = true
@@ -293,7 +323,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
 
     private fun launchPurchaseFlow(productDetails: ProductDetails) {
         // An activity reference from which the billing flow will be launched.
-//        val activity: Activity = requireActivity()
+        //  val activity: Activity = requireActivity()
 
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
@@ -310,7 +340,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
             .build()
 
         // Launch the billing flow
-        val billingResult = billingClient!!.launchBillingFlow(this@MainActivity, billingFlowParams)
+        billingClient!!.launchBillingFlow(this@MainActivity, billingFlowParams)
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
@@ -320,6 +350,7 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
+
         } else {
             // Handle any other error codes.
         }
@@ -349,5 +380,17 @@ class MainActivity : AppCompatActivity(), NewsFragment.TrendNewsFragmentListener
 
     override fun buyAdFreeAction() {
         if (thisProductDetails != null) thisProductDetails?.let { launchPurchaseFlow(it) }
+    }
+
+    override fun beforeOpenBook() {
+        showAds()
+    }
+
+    override fun beforeOpenTrend() {
+        showAds()
+    }
+
+    override fun beforeOpenNews() {
+        showAds()
     }
 }

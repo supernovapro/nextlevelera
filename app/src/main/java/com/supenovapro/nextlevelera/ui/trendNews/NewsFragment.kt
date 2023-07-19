@@ -5,10 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.appbar.MaterialToolbar
@@ -37,7 +35,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     private var _binding: FragmentNewsArticlesBinding? = null
     private var bookmarkSize = 0
 
-    private var utils:AppUtil? = null
+    private var utils: AppUtil? = null
     private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +45,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
         val pagerChannelsAdapter = NewsChannelsAdapter(this)
         val climateAdapter = DetailsAdapter(this)
         val adapter = TrendNewsAdapter(this)
-            utils = AppUtil(requireContext())
+        utils = AppUtil(requireContext())
         binding.apply {
             val toolbar = mainActToolbar
             toolbar.inflateMenu(R.menu.top_menu)
@@ -56,8 +54,10 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
             artFragmentRecyclerview.adapter = adapter
             artFraClimateRecyclerview.setHasFixedSize(true)
             artFraClimateRecyclerview.adapter = climateAdapter
-            artFraClimateRecyclerview.layoutManager = GridLayoutManager(view.context, 1,
-                GridLayoutManager.HORIZONTAL, false)
+            artFraClimateRecyclerview.layoutManager = GridLayoutManager(
+                view.context, 1,
+                GridLayoutManager.HORIZONTAL, false
+            )
             pagerChannelsAdapter.submitList(newsWebsites())
             artFragmentPager2Content.adapter = pagerChannelsAdapter
             artFragmentPager2Content.registerOnPageChangeCallback(object : OnPageChangeCallback() {
@@ -74,22 +74,29 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
 
 
             artFragToClimateFrag.setOnClickListener {
-                val detailsFragment = DetailsFragment()
-                val fragmentManager = parentFragmentManager
-                val fragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.replace(
-                    R.id.nav_main_fragments_host,
-                    detailsFragment,
-                    "DetailsFragment"
-                )
-                fragmentTransaction.addToBackStack("DetailsFragment")
-                fragmentTransaction.commit()
-
+                if (utils!!.isInternetAvailable(requireContext())) {
+                    val detailsFragment = DetailsFragment()
+                    val fragmentManager = parentFragmentManager
+                    val fragmentTransaction = fragmentManager.beginTransaction()
+                    fragmentTransaction.replace(
+                        R.id.nav_main_fragments_host,
+                        detailsFragment,
+                        "DetailsFragment"
+                    )
+                    fragmentTransaction.addToBackStack("DetailsFragment")
+                    fragmentTransaction.commit()
+                }else{
+                    Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT)
+                        .setAction("Try again"){
+                            trendNewsListener!!.beforeOpenTrend()
+                        }
+                        .show()
+                }
             }
 
         }
 
-        trendViewModel.trendBookmark.observe(viewLifecycleOwner){bookmark ->
+        trendViewModel.trendBookmark.observe(viewLifecycleOwner) { bookmark ->
             bookmarkSize = bookmark.size
         }
 
@@ -99,7 +106,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
 
         trendViewModel.climateNews.observe(viewLifecycleOwner) { climate ->
             if (climate.data?.size!! > 10) {
-                climateAdapter.submitList(climate.data.subList(0, 3))
+                climateAdapter.submitList(climate.data.subList(1, 4))
             } else {
                 climateAdapter.submitList(climate.data)
             }
@@ -126,6 +133,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     override fun onClimateClick(climateNews: ClimateNews) {
+        trendNewsListener!!.beforeOpenTrend()
         val intent = Intent(context, News::class.java)
         intent.putExtra("url", climateNews.url)
         startActivity(intent)
@@ -137,21 +145,22 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
 
     override fun onClimateTwitClick(climate: ClimateNews) {
         try {
-        // Create a Twitter intent
-        val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(
-                "twitter://post?text=#trend_News%20#news%20#climate_change:%20${climate.title}&url=${climate.url}"
-            )
+            // Create a Twitter intent
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data =
+                Uri.parse("twitter://post?text=Check%20out%20this%20trending%20news:%20${climate.title}&url=${climate.url}")
 
             // If Twitter app is not installed, open the Twitter website
-            if (intent.resolveActivity(requireActivity().packageManager) == null) {
-                intent.data = Uri.parse(
-                    "https://twitter.com/intent/tweet?text=#trend_News%20#news%20#climate_change:%20${climate.title}&url=${climate.url}"
-                )
+            if (intent.resolveActivity(requireContext().packageManager) == null) {
+                intent.data =
+                    Uri.parse("https://twitter.com/intent/tweet?text=Check%20out%20this%20trending%20news:%20${climate.title}&url=${climate.url}")
             }
-        // Start the Twitter activity
-        startActivity(intent)
-        }catch(ex:Exception){ex.fillInStackTrace()}
+
+            // Start the Twitter activity
+            startActivity(intent)
+        } catch (ex: Exception) {
+            ex.fillInStackTrace()
+        }
     }
 
     override fun onClimateShareClick(climate: ClimateNews) {
@@ -160,13 +169,13 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
         intent.type = "text/plain"
 
         // Set the text of the share
-        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending news: ${climate.title}")
+        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending : ${climate.title}\n${climate.url}")
 
         // Set the URL of the news article
-        intent.putExtra(Intent.EXTRA_TEXT, climate.url)
+        //intent.putExtra(Intent.EXTRA_SUBJECT, climate.url)
 
         // Set the image of the news article
-        intent.putExtra(Intent.EXTRA_STREAM, climate.imageUrl)
+       // intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(climate.imageUrl))
 
         // Start the share activity
         startActivity(Intent.createChooser(intent, "Share Climate Change news"))
@@ -174,16 +183,26 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     override fun onChannelClick(channel: NewsWebsite) {
-        val intent = Intent(context, News::class.java)
-        intent.putExtra("url", channel.websiteLink)
-        startActivity(intent)
+        if(utils!!.isInternetAvailable(requireContext())) {
+            val intent = Intent(context, News::class.java)
+            intent.putExtra("url", channel.websiteLink)
+            startActivity(intent)
+        }else{
+            trendNewsListener!!.beforeOpenTrend()
+            Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT)
+                .show()
+        }
     }
 
     override fun onArticleClick(article: TrendNews) {
-
+          trendNewsListener!!.beforeOpenTrend()
+        //if(utils!!.isInternetAvailable(requireContext())) {
         // val intent = Intent(context, News::class.java)
-       // intent.putExtra("url", article.url)
-      //  startActivity(intent)
+        // intent.putExtra("url", article.url)
+        //  startActivity(intent)
+       //} else{
+         //   Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
+       // }
     }
 
     override fun onBookmarkClick(article: TrendNews) {
@@ -191,23 +210,23 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     override fun onTwitterClick(newsTwit: TrendNews) {
-       try {
-           // Create a Twitter intent
-           val intent = Intent(Intent.ACTION_VIEW)
-           intent.data = Uri.parse(
-               "twitter://post?text=#trend_News%20#news%20#climate_change:%20${newsTwit.title}&url=${newsTwit.url}"
-           )
+        try {
+            // Create a Twitter intent
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data =
+                Uri.parse("twitter://post?text=Check%20out%20this%20trending%20news:%20${newsTwit.title}&url=${newsTwit.url}")
 
-           // If Twitter app is not installed, open the Twitter website
-           if (intent.resolveActivity(requireActivity().packageManager) == null) {
-               intent.data = Uri.parse(
-                   "https://twitter.com/intent/tweet?text=#trend_News%20#news%20#climate_change:%20${newsTwit.title}&url=${newsTwit.url}"
-               )
-           }
+            // If Twitter app is not installed, open the Twitter website
+            if (intent.resolveActivity(requireContext().packageManager) == null) {
+                intent.data =
+                    Uri.parse("https://twitter.com/intent/tweet?text=Check%20out%20this%20trending%20news:%20${newsTwit.title}&url=${newsTwit.url}")
+            }
 
-           // Start the Twitter activity
-           startActivity(intent)
-       }catch (ex:Exception){ex.fillInStackTrace()}
+            // Start the Twitter activity
+            startActivity(intent)
+        } catch (ex: Exception) {
+            ex.fillInStackTrace()
+        }
 
     }
 
@@ -217,13 +236,13 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
         intent.type = "text/plain"
 
         // Set the text of the share
-        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending news: ${newsShare.title}")
+        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending : ${newsShare.title}\n${newsShare.url}")
 
         // Set the URL of the news article
-        intent.putExtra(Intent.EXTRA_TEXT, newsShare.url)
+
 
         // Set the image of the news article
-        intent.putExtra(Intent.EXTRA_STREAM, newsShare.imageUrl)
+     //   intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(newsShare.imageUrl))
 
         // Start the share activity
         startActivity(Intent.createChooser(intent, "Share Breaking news"))
@@ -259,7 +278,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
                         )
                         fragmentTransaction.addToBackStack("BookmarkFragment")
                         fragmentTransaction.commit()
-                    }else{
+                    } else {
                         Snackbar.make(binding.root, "Bookmark List Empty", Snackbar.LENGTH_SHORT)
                             .show()
                     }
@@ -277,7 +296,7 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
                 }
 
                 R.id.top_menu_share -> {
-                   utils!!.shareApp()
+                    utils!!.shareApp()
                     true
                 }
 
@@ -289,7 +308,9 @@ class NewsFragment : Fragment(R.layout.fragment_news_articles),
     }
 
     //send data back main activity
-    interface TrendNewsFragmentListener {}
+    interface TrendNewsFragmentListener {
+        fun beforeOpenTrend()
+    }
 
     private var trendNewsListener: TrendNewsFragmentListener? = null
 

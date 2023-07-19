@@ -47,10 +47,16 @@ class AppUtil constructor(private val context: Context) {
         }
     }
 
+    private val appUrl = "https://play.google.com/store/apps/details?id=com.supenovapro.nextlevelera"
     fun shareApp() {
         val share = Intent(Intent.ACTION_SEND)
         share.type = "text/plain"
-        share.putExtra(Intent.EXTRA_TEXT, "app name")
+        share.putExtra(Intent.EXTRA_TEXT, """
+        Check out this awesome news App.
+        It's Your best news destination.
+        You can download it here: ${appUrl}.
+        download it to stay up-to-date on the latest news.
+        """.trimIndent())
         if (share.resolveActivity(context.packageManager) != null) {
             context.startActivity(Intent.createChooser(share, "Share"))
         }

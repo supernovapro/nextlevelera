@@ -56,15 +56,10 @@ class BookmarkAdapter(private val listener: OnItemClickListener) :
         }
 
         fun bind(trendBookmark: TrendNewsBookmark) {
-            val color = Color.BLUE
-            val htmlText = Html.fromHtml("<font color=\"$color\">${trendBookmark.source}</font>",0)
+          //  val color = Color.BLUE
+           // val htmlText = Html.fromHtml("<font color=\"$color\">${trendBookmark.source}</font>",0)
             binding.apply {
 
-                if (trendBookmark.title.contains("climate")) {
-                    bookmarkSign.setImageResource(R.drawable.ic_day_mode)
-                } else {
-                    bookmarkSign.setImageResource(R.drawable.ic_awesome)
-                }
                 Glide.with(itemView)
                     .load(trendBookmark.imageUrl)
                     //.centerCrop()
@@ -72,9 +67,9 @@ class BookmarkAdapter(private val listener: OnItemClickListener) :
                     .error(R.drawable.ic_news)
                     .into(bookmarkNewsImage)
                 bookmarkTime.text = trendBookmark.newsContent
-                bookmarkLongTitle.text = trendBookmark.title
-                bookmarkLongTitle.append(" \n by ${htmlText} news.")
-                bookmarkShortTitle.text = trendBookmark.title
+                bookmarkLongTitle.text = cleanString(trendBookmark.title).trim()
+
+                bookmarkShortTitle.text = trendBookmark.source ?: "source Trend News"
             }
         }
 
@@ -100,5 +95,11 @@ class BookmarkAdapter(private val listener: OnItemClickListener) :
         }
     }
 
+
+
+    private fun cleanString(string: String): String {
+        return string.replace("\n", "").replace("\t", "").replace("  ", " ")
+
+    }
 
 }

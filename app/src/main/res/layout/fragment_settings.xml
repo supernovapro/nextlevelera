@@ -26,7 +26,6 @@
                 app:logo="@drawable/ic_settings"
                 app:logoDescription="@string/settings_title"
                 app:subtitle="@string/settings_title"
-                app:subtitleTextColor="@color/Whit_color"
                 app:titleMarginStart="30dp">
 
             </com.google.android.material.appbar.MaterialToolbar>
@@ -55,60 +54,79 @@
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/settings_night_mode"
-                android:layout_width="wrap_content"
+                android:layout_width="244dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/round_bg_normal"
+                android:padding="3dp"
                 android:drawableStart="@drawable/ic_day_mode"
                 android:drawablePadding="15dp"
+                android:drawableTint="@color/ic_color"
                 android:text="@string/night_mode"
-                android:textSize="12sp" />
+                android:textColor="@color/text_color"
+                />
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/settings_enable_javascript"
-                android:layout_width="wrap_content"
+                android:layout_width="244dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/round_bg_normal"
                 android:drawableStart="@drawable/ic_javascript"
                 android:drawablePadding="15dp"
+                android:drawableTint="@color/ic_color"
+
+                android:textColor="@color/text_color"
                 android:text="@string/enable_javascript" />
 
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/settings_enable_zoom_in"
-                android:layout_width="wrap_content"
+                android:layout_width="244dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/round_bg_normal"
                 android:drawableStart="@drawable/ic_zoom_in"
+                android:textColor="@color/text_color"
                 android:drawablePadding="15dp"
                 android:text="@string/enable_zoom_in"
-                android:textSize="12sp" />
+                android:drawableTint="@color/ic_color"
+
+                />
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/settings_load_from_catch"
-                android:layout_width="wrap_content"
+                android:layout_width="244dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/round_bg_normal"
                 android:drawableStart="@drawable/ic_app_cache"
                 android:drawablePadding="15dp"
+                android:drawableTint="@color/ic_color"
+
+                android:textColor="@color/text_color"
                 android:text="@string/load_catch"
-                android:textSize="12sp" />
+                />
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/settings_block_pop_ups"
-                android:layout_width="wrap_content"
+                android:layout_width="244dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/round_bg_normal"
                 android:drawableStart="@drawable/ic_hide_source"
                 android:drawablePadding="15dp"
-                android:text="Block PopUps"
-                android:textSize="12sp" />
+                android:textColor="@color/text_color"
+                android:text="@string/block_popups"
+                android:drawableTint="@color/ic_color"
+             />
 
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            app:dividerColor="@color/gray_color" />
+            app:dividerColor="@color/card_bg" />
 
         <Button
             android:id="@+id/add_free_exp"
@@ -116,16 +134,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:clickable="false"
+            android:background="@drawable/round_bg_normal"
             android:drawableEnd="@drawable/ic_diamond_more"
-            android:enabled="false"
             android:gravity="center"
             android:text="@string/ads_free_experience_2_46" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            app:dividerColor="@color/gray_color" />
+            app:dividerColor="@color/card_bg" />
 
         <TextView
             android:layout_width="match_parent"
@@ -155,6 +172,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete_bookmark"
+                android:textColor="@color/chip_text_color"
+                app:chipBackgroundColor="@color/card_bg"
                 app:chipIconEnabled="true"
                 app:chipStrokeColor="@color/seed" />
 
@@ -162,9 +181,11 @@
                 android:id="@+id/settings_full_screen_mode"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
+                app:chipBackgroundColor="@color/card_bg"
                 android:layout_height="wrap_content"
                 android:text="@string/full_screen_mode"
                 app:chipIconEnabled="true"
+                android:textColor="@color/chip_text_color"
                 app:chipStrokeColor="@color/seed" />
 
             <com.google.android.material.chip.Chip
@@ -172,6 +193,8 @@
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/card_bg"
+                android:textColor="@color/chip_text_color"
                 android:text="@string/clear_ache" />
 
             <com.google.android.material.chip.Chip
@@ -179,13 +202,15 @@
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/card_bg"
+                android:textColor="@color/chip_text_color"
                 android:text="@string/allow_cookies" />
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            app:dividerColor="@color/gray_color" />
+            app:dividerColor="@color/card_bg" />
 
         <TextView
             android:layout_width="match_parent"
@@ -211,6 +236,9 @@
                 android:id="@+id/settings_privacy_policy"
                 style="@style/Widget.Material3.CheckedTextView"
                 android:layout_width="match_parent"
+                android:background="@drawable/round_bg_normal"
+                android:padding="3dp"
+                android:textColor="@color/text_color"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
@@ -224,28 +252,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
+                android:background="@drawable/round_bg_normal"
+                android:padding="3dp"
                 android:text="@string/rate_us"
+                app:drawableTint="#FFC107"
+                android:textColor="@color/text_color"
                 android:textSize="15sp"
                 app:drawableEndCompat="@drawable/ic_star_rate" />
             <TextView
                 android:id="@+id/settings_share"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/round_bg_normal"
+                android:padding="3dp"
+                android:textColor="@color/text_color"
                 android:textSize="15sp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
                 app:drawableEndCompat="@drawable/ic_share"
                 android:text="@string/share"
-
+                app:drawableTint="@color/ic_color"
                 />
             <TextView
                 android:id="@+id/settings_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/round_bg_normal"
+                android:textColor="@color/text_color"
+                android:padding="3dp"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="15dp"
                 android:textSize="15sp"
                 app:drawableEndCompat="@drawable/ic_email"
+                app:drawableTint="@color/md_theme_dark_error"
                 android:text="@string/feedback" />
 
 
@@ -253,11 +292,15 @@
                 android:id="@+id/settings_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/round_bg_normal"
+                android:textColor="@color/text_color"
+                android:padding="3dp"
                 android:gravity="center_vertical"
                 app:drawableEndCompat="@drawable/ic_get_app"
                 android:layout_marginBottom="15dp"
                 android:textSize="15sp"
-                android:text="@string/get_more" />
+                android:text="@string/get_more"
+                app:drawableTint="@color/ic_color" />
 
 
 
@@ -266,7 +309,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            app:dividerColor="@color/gray_color" />
+            app:dividerColor="@color/card_bg" />
 
         <TextView
             android:layout_width="match_parent"

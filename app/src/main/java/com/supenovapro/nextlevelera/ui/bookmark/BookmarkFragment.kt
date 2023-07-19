@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,6 +15,7 @@ import com.supenovapro.nextlevelera.R
 import com.supenovapro.nextlevelera.data.TrendNewsBookmark
 import com.supenovapro.nextlevelera.databinding.FragmentBookmarksBinding
 import com.supenovapro.nextlevelera.ui.browser.News
+import com.supenovapro.nextlevelera.util.AppUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,9 +28,13 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmarks),
     private val binding get() = _binding!!
 
     private var bookmarkSize = 0
+
+    private var util:AppUtil? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentBookmarksBinding.bind(view)
+
+        util= AppUtil(requireContext())
 
         val bookAdapter = BookmarkAdapter(this)
         binding.apply {
@@ -78,13 +82,26 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmarks),
     }
 
     override fun onOpenBookmarkClick(bookmark: TrendNewsBookmark) {
-        val intent = Intent(context, News::class.java)
-        intent.putExtra("url", bookmark.url)
-        startActivity(intent)
+        bookmarkListener!!.beforeOpenBook()
+        if(util!!.isInternetAvailable(requireContext())) {
+            val intent = Intent(context, News::class.java)
+            intent.putExtra("url", bookmark.url)
+            startActivity(intent)
+        } else{
+                Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
+            }
+
     }
 
     override fun onDeleteClick(bookmark: TrendNewsBookmark) {
         bookmarkViewModel.deleteBookmarkArticle(bookmark)
+        Snackbar.make(
+            binding.root,
+                    "Deleting Bookmarked News...", Snackbar.LENGTH_LONG
+        ).setAction("UNDO") {
+            bookmarkViewModel.insertBookmarkArticle(bookmark)
+        }.show()
+
     }
 
     private fun setBookmarkMenu(toolbar: MaterialToolbar) {
@@ -114,6 +131,8 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmarks),
 
     //send data back main activity
     interface BookmarkFragmentListener {
+
+        fun beforeOpenBook()
     }
 
     private var bookmarkListener: BookmarkFragmentListener? = null

@@ -6,24 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     app:cardCornerRadius="5dp"
-    app:cardUseCompatPadding="true"
     >
 
     <ImageView
         android:id="@+id/bookmark_news_image"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="60dp"
-        android:layout_marginStart="5dp"
+        android:background="@drawable/round_bg_normal"
+        android:layout_margin="5dp"
+        android:padding="5dp"
         android:src="@drawable/ic_news"
         android:contentDescription="@string/more_icon"
          />
-    <ImageView
-        android:id="@+id/bookmark_sign"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_awesome"
-        android:layout_marginStart="60dp"
-        android:contentDescription="@string/more_icon" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,11 +32,19 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="80dp"
             android:ellipsize="end"
-            android:maxEms="10"
+            android:maxEms="16"
             android:maxLines="1"
-            android:text="@string/title_breaking_news"
-            android:textSize="18sp" />
-
+            android:text="@string/long_text"
+            android:textSize="13sp" />
+        <ImageView
+            android:id="@+id/bookmark_sign"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_bookmarked"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/bookmark_short_title"
+            android:contentDescription="@string/bookmarks"
+            app:tint="@color/ic_color" />
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bookmark_long_title"
             android:layout_width="wrap_content"
@@ -56,14 +58,15 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:padding="3dp"
+            style="@style/TextAppearance.Material3.TitleLarge"
             android:text="@string/search_instructions"
-            android:textSize="15sp" />
+            android:textSize="19sp" />
 
         <ImageView
             android:id="@+id/bookmark_remove"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
@@ -83,4 +86,11 @@
             android:textSize="12sp" />
 
     </RelativeLayout>
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/card_bg"
+        android:layout_gravity="bottom"
+        />
+
 </androidx.cardview.widget.CardView>

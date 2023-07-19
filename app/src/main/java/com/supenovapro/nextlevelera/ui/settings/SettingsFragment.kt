@@ -33,7 +33,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSettingsBinding.bind(view)
-         util = AppUtil(requireContext().applicationContext)
+         util = AppUtil(requireContext())
 
 
         //setUpBilling()
@@ -179,10 +179,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun setDarkMode(isDarkMode: Boolean) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            Snackbar.make(binding.root, "is Dark Mode", Snackbar.LENGTH_SHORT).show()
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            Snackbar.make(binding.root, "is Day Mode", Snackbar.LENGTH_SHORT).show()
 
         }
 

@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
 
     <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/app_statues_bar_dark</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
@@ -28,5 +28,12 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
+
+        <item name="android:navigationBarColor">@color/app_statues_bar_dark</item>
+        <item name="android:navigationIcon">@color/Whit_color</item>
+
+
+        <item name="android:statusBarColor">@color/app_statues_bar_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

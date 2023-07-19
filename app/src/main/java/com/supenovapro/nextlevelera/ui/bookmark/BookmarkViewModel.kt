@@ -35,4 +35,10 @@ class BookmarkViewModel @Inject constructor(
         }
     }
 
+    fun insertBookmarkArticle(bookmark: TrendNewsBookmark) {
+        viewModelScope.launch {
+            repository.insertBookmarks(bookmark = bookmark)
+        }
+    }
+
 }

@@ -10,13 +10,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.supenovapro.nextlevelera.R
 import com.supenovapro.nextlevelera.data.TrendNews
 import com.supenovapro.nextlevelera.databinding.ItemTrendnewsArticleBinding
-import java.text.DateFormat
 
 class TrendNewsAdapter(private val listener: OnItemClickListener) :
     ListAdapter<TrendNews, TrendNewsAdapter.TrendNewsViewHolder>(NEWS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendNewsViewHolder {
-        val binding = ItemTrendnewsArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemTrendnewsArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return TrendNewsViewHolder(binding)
     }
@@ -29,7 +29,8 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
     }
 
 
-    inner class TrendNewsViewHolder(private val binding: ItemTrendnewsArticleBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TrendNewsViewHolder(private val binding: ItemTrendnewsArticleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
                 root.setOnClickListener {
@@ -66,17 +67,20 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
 
         fun bind(article: TrendNews) {
             binding.apply {
-                Glide.with(itemView)
-                    .load(article.imageUrl)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_news)
-                    .into(articleBreakNewsImage)
-                artBreakNewsLongTitle.text = article.title
-                artBreakNewsShortTitle.text = article.title
-                artBreakNewsTime.text = article.newsArticleDateFormat
-                articleNewsShareText.text = article.share.toString()
-                articleNewsTwitText.text = article.twit.toString()
-                articleNewsViewsText.text = article.views.toString()
+                if (article.title != "News" && article.title.trim() != "") {
+                    Glide.with(itemView)
+                        .load(article.imageUrl)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .error(R.drawable.ic_news)
+                        .into(articleBreakNewsImage)
+                    artBreakNewsLongTitle.text = article.title
+                    artBreakNewsShortTitle.text = article.title
+                    artBreakNewsTime.text = article.newsArticleDateFormat
+
+                    articleNewsShareText.text = shareNum(article.share)
+                    articleNewsTwitText.text = twitNum(article.twit)
+                    articleNewsViewsText.text = viewsNum(article.views)
+                }
             }
         }
     }
@@ -97,4 +101,51 @@ class TrendNewsAdapter(private val listener: OnItemClickListener) :
                 oldItem == newItem
         }
     }
+
+
+    private fun viewsNum(views: Int?): String {
+        return if (views == null)
+            "${((Math.random() * (703 - 5.0 + 1)) + 5.0).toInt()}k"
+        else {
+            "${views}k"
+        }
+    }
+
+    private fun twitNum(twit: Int?): String {
+        val random = ((Math.random() * (53.0 - 6.0 + 1)) + 6.0)
+        return if (twit == null) {
+            if (random <= 8) "${random.toString().substring(0,3)}k"
+            else "${random.toInt()}"
+        } else {
+
+            "$twit"
+        }
+    }
+
+    private fun shareNum(share: Int?): String {
+        val random = ((Math.random() * (13.0 - 4.0 + 1)) + 4.0)
+        return if (share == null)
+            if (random <= 5) "${random.toString().substring(0,3)}k"
+            else "${random.toInt()}"
+        else {
+            "$share"
+        }
+    }
+
+    private fun commentsNum(comments: Int?): String {
+        return if (comments == 0)
+            "${((Math.random() * (11.0 - 1.0 + 1)) + 1.0).toInt()}"
+        else {
+            "$comments"
+        }
+    }
+
+    private fun likesNum(likes: Int?): String {
+        return if (likes == 0)
+            "${((Math.random() * (26 - 1.0 + 1)) + 1.0).toInt()}"
+        else {
+            "$likes"
+        }
+    }
+
 }

@@ -19,27 +19,41 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:id="@+id/bookmark_frg_toolbar"
-            app:subtitleTextColor="@color/Whit_color"
-            app:subtitle="@string/bookmark_title"
-            app:navigationIconTint="@color/light_gray_color"
-            app:navigationIcon="@drawable/ic_bookmark_border"
+            app:subtitle="@string/bookmark_news"
+            app:navigationIcon="@drawable/ic_bookmarks"
             >
 
         </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
     <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/google_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:dividerColor="@color/seed"
         android:layout_below="@id/bookmark_frg_appbar"
         />
+
+    <TextView
+        android:id="@+id/text_view_how_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/google_divider"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/round_bg"
+        android:padding="10dp"
+        android:text="@string/delete_by_sweep"
+        app:drawableEndCompat="@drawable/ic_delete_sweep"
+        app:drawableTint="@color/md_theme_dark_error" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bookmark_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/bookmark_frg_appbar"
+        android:layout_below="@id/text_view_how_delete"
         android:background="@drawable/half_round_bg"
-        android:padding="2dp"
+        android:padding="1dp"
         tools:listitem="@layout/item_bookmark_article" />
 
     <TextView
@@ -48,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/no_bookmarks"
-        android:visibility="visible"
+        android:visibility="invisible"
         tools:visibility="visible" />
 
 </RelativeLayout>

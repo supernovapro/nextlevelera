@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Widget.Material3.CardView.Outlined"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="105dp"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
     >
@@ -22,6 +22,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="3dp"
         android:layout_gravity="bottom">
 
         <com.google.android.material.textview.MaterialTextView
@@ -41,7 +42,7 @@
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="15dp"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentEnd="true"
             android:text="@string/defult_time"
@@ -63,23 +64,27 @@
             android:textSize="15sp" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="28dp"
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/article_break_news_share"
+            android:background="@drawable/round_bg_normal"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginEnd="30dp"
             android:orientation="horizontal">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="@string/more_icon"
-            android:src="@drawable/ic_share" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/more_icon"
+                android:src="@drawable/ic_share" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/article_news_share_text"
                 android:layout_width="wrap_content"
@@ -91,8 +96,10 @@
         </LinearLayout>
             <ImageView
                 android:id="@+id/article_break_news_bookmark"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:background="@drawable/round_bg_normal"
+                android:padding="1dp"
+                android:layout_height="25dp"
                 android:layout_marginEnd="30dp"
                 android:contentDescription="@string/bookmarks"
                 android:src="@drawable/ic_bookmark_border" />
@@ -101,6 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:background="@drawable/round_bg_normal"
+                android:padding="5dp"
                 android:layout_marginEnd="30dp"
                 android:orientation="horizontal">
                 <ImageView
@@ -108,7 +117,7 @@
                     android:layout_height="20dp"
                     android:contentDescription="@string/more_icon"
                     android:src="@drawable/ic_twitter"
-                    app:tint="@color/gray_color" />
+                    app:tint="@color/ic_color"/>
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/article_news_twit_text"
                     android:layout_width="wrap_content"
@@ -122,6 +131,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginEnd="20dp"
+            android:background="@drawable/round_bg_normal"
+            android:padding="5dp"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="20dp"

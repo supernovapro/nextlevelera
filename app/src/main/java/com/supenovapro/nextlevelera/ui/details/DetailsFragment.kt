@@ -1,5 +1,6 @@
 package com.supenovapro.nextlevelera.ui.details
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,7 +14,9 @@ import com.supenovapro.nextlevelera.R
 import com.supenovapro.nextlevelera.data.ClimateNews
 import com.supenovapro.nextlevelera.databinding.FragmentDetailsBinding
 import com.supenovapro.nextlevelera.ui.browser.News
+import com.supenovapro.nextlevelera.util.AppUtil
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details), DetailsAdapter.OnItemClickListener {
@@ -24,35 +27,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details), DetailsAdapter.OnIt
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
+    private var appUtil:AppUtil? =null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetailsBinding.bind(view)
+
+        appUtil = AppUtil(requireContext())
 
         val adapter = DetailsAdapter(this)
         binding.apply {
             climateChangeRecycler.setHasFixedSize(true)
             climateChangeRecycler.adapter = adapter
             climateChangeRecycler.layoutManager = LinearLayoutManager(view.context)
-
-            climateVoiceSearch.setOnClickListener {
-                Snackbar.make(view, "Voice Search clicked ", Snackbar.LENGTH_SHORT)
-                    .show()
-            }
-            climateSearchView.apply {
-                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        if (!query.isNullOrBlank()) {
-
-                        }
-                        return true
-                    }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        return true
-                    }
-                })
-
-            }
         }
 
         climateViewModel.climateNews.observe(viewLifecycleOwner) { climateChangeNews ->
@@ -67,31 +54,31 @@ class DetailsFragment : Fragment(R.layout.fragment_details), DetailsAdapter.OnIt
     }
 
     override fun onClimateClick(climateNews: ClimateNews) {
-        val intent = Intent(context, News::class.java)
-        intent.putExtra("url", climateNews.url)
-        startActivity(intent)
+        climateListener!!.beforeOpenNews()
+        if (appUtil!!.isInternetAvailable(requireContext())) {
+            val intent = Intent(context, News::class.java)
+            intent.putExtra("url", climateNews.url)
+            startActivity(intent)
+        }else{
+            Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun onClimateBookmarkClick(climateNews: ClimateNews) {
         climateViewModel.bookmarkClimateChange(climateNews)
-        Snackbar.make(binding.root, " Bookmarked ", Snackbar.LENGTH_SHORT).show()
-
     }
 
     override fun onClimateTwitClick(climate: ClimateNews) {
         try {
             // Create a Twitter intent
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(
-                "twitter://post?text=#trend_News%20#news%20#climate_change:%20${climate.title}&url=${climate.url}"
-            )
+            intent.data = Uri.parse("twitter://post?text=Check%20out%20this%20trending%20news:%20${climate.title}&url=${climate.url}")
 
             // If Twitter app is not installed, open the Twitter website
-            if (intent.resolveActivity(requireActivity().packageManager) == null) {
-                intent.data = Uri.parse(
-                    "https://twitter.com/intent/tweet?text=#trend_News%20#news%20#climate_change:%20${climate.title}&url=${climate.url}"
-                )
+            if (intent.resolveActivity(requireContext().packageManager) == null) {
+                intent.data = Uri.parse("https://twitter.com/intent/tweet?text=Check%20out%20this%20trending%20news:%20${climate.title}&url=${climate.url}")
             }
+
             // Start the Twitter activity
             startActivity(intent)
         }catch(ex:Exception){ex.fillInStackTrace()}
@@ -103,16 +90,38 @@ class DetailsFragment : Fragment(R.layout.fragment_details), DetailsAdapter.OnIt
         intent.type = "text/plain"
 
         // Set the text of the share
-        intent.putExtra(Intent.EXTRA_TEXT, "Check out this trending news: ${climate.title}")
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Check out this trending : ${climate.title}\n${climate.url}")
 
         // Set the URL of the news article
-        intent.putExtra(Intent.EXTRA_TEXT, climate.url)
+        //intent.putExtra(Intent.EXTRA_TEXT, climate.url)
 
         // Set the image of the news article
-        intent.putExtra(Intent.EXTRA_STREAM, climate.imageUrl)
+       // intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(climate.imageUrl))
 
         // Start the share activity
         startActivity(Intent.createChooser(intent, "Share Climate Change news"))
 
+    }
+
+    //send data back main activity
+    interface ClimateFragmentListener {
+
+        fun beforeOpenNews()
+    }
+
+    private var climateListener: ClimateFragmentListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        climateListener = if (context is ClimateFragmentListener) {
+            context
+        } else {
+            throw RuntimeException(context.toString() + "must impl BOOKMARK listener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        climateListener = null
     }
 }

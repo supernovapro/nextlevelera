@@ -8,12 +8,11 @@
     android:background="@drawable/app_background"
     android:id="@+id/news_act_swipe_refresh"
     tools:context=".ui.browser.News">
+
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/news_act_web_view"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
         />
-
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">World Trend</string>
+    <string name="trend">Trend News</string>
     <string name="title_breaking_news">Breaking News</string>
     <string name="title_search_news">Search News</string>
     <string name="title_climate_news">Climate Change</string>
@@ -18,6 +19,7 @@
     <string name="search_instructions">Tap the magnifying glass to start searching</string>
     <string name="delete_all_bookmarks">Delete all bookmarks</string>
     <string name="bookmark_title">Bookmark</string>
+    <string name="bookmark_news">Bookmarked News</string>
     <string name="home_title">Breaking News</string>
     <string name="braking_news">World</string>
     <string name="settings_title">Settings</string>
@@ -48,7 +50,7 @@
     <string name="usa_news_category">. USA news</string>
     <string name="sport_news_category">. Sport news</string>
     <string name="finance_news">. Finance news</string>
-    <string name="more_climate_news">More News...</string>
+    <string name="more_climate_news">More News…</string>
     <string name="mic_input">"search by mic "</string>
     <string name="politics_news_category">. Politics news</string>
     <string name="loading_website_msg">loading.....</string>
@@ -64,4 +66,6 @@
     </string>
     <string name="rate_us">Rate Us</string>
     <string name="feedback">FeedBack and Suggestions</string>
+    <string name="block_popups">Block PopUps</string>
+    <string name="delete_by_sweep">You Can Delete News Card By sweep left or right</string>
 </resources>
